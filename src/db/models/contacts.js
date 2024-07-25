@@ -7,7 +7,7 @@ const contactSchema = new mongoose.Schema(
       required: true,
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     email: {
@@ -20,9 +20,9 @@ const contactSchema = new mongoose.Schema(
     },
     contactType: {
       type: String,
-      required: true,
       enum: ['work', 'home', 'personal'],
       default: 'personal',
+      required: true,
     },
   },
   {
@@ -32,7 +32,3 @@ const contactSchema = new mongoose.Schema(
 const Contact = mongoose.model('Contact', contactSchema);
 
 export { Contact };
-
-// ??????????????????
-// phoneNumber - string, required
-// string????
