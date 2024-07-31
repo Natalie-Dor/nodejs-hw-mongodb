@@ -8,19 +8,36 @@ import {
   getContactByIdController,
   updateContactByIdController,
 } from '../controllers/contacts.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import {
+  createContactSchema,
+  updateContactSchema,
+} from '../validation/contacts.js';
+import { isValidId } from '../middlewares/isValidID.js';
 
 const router = express.Router();
 const jsonParser = express.json();
 
 router.get('/contacts', ctrlWrapper(getAllContactsController));
-router.get('/contacts/:contactId', ctrlWrapper(getContactByIdController));
-router.post('/contacts', jsonParser, ctrlWrapper(createContactController));
-router.patch(
-  '/contacts/:contactId',
+router.get('/contacts/:id', isValidId, ctrlWrapper(getContactByIdController));
+router.post(
+  '/contacts',
   jsonParser,
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
+router.patch(
+  '/contacts/:id',
+  isValidId,
+  jsonParser,
+  validateBody(updateContactSchema),
   ctrlWrapper(updateContactByIdController),
 );
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactByIdController));
+router.delete(
+  '/contacts/:id',
+  isValidId,
+  ctrlWrapper(deleteContactByIdController),
+);
 export default router;
 // upsert
 // name - обов’язково

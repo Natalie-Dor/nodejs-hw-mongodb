@@ -6,6 +6,9 @@ import {
   getContactByIdService,
   updateContactByIdService,
 } from '../services/contacts.js';
+
+// import { createContactSchema } from '../validation/contacts.js';
+
 export const getAllContactsController = async (req, res, next) => {
   const contacts = await getAllContactsService();
   res.json({
@@ -15,15 +18,15 @@ export const getAllContactsController = async (req, res, next) => {
   });
 };
 export const getContactByIdController = async (req, res, next) => {
-  const { contactId } = req.params;
-  const contact = await getContactByIdService(contactId);
+  const { id } = req.params;
+  const contact = await getContactByIdService(id);
   if (contact === null) {
     return next(createHttpError(404, 'Contact not found'));
   }
 
   res.status(200).json({
     status: 200,
-    message: `Successfully found contact with id ${contactId}!`,
+    message: `Successfully found contact with id ${id}!`,
     data: contact,
   });
 };
@@ -37,8 +40,8 @@ export const createContactController = async (req, res, next) => {
 };
 
 export const updateContactByIdController = async (req, res, next) => {
-  const { contactId } = req.params;
-  const updatedContact = await updateContactByIdService(contactId, req.body);
+  const { id } = req.params;
+  const updatedContact = await updateContactByIdService(id, req.body);
   if (updatedContact === null) {
     next(createHttpError(404, 'Contact not found'));
     return;
@@ -50,8 +53,8 @@ export const updateContactByIdController = async (req, res, next) => {
   });
 };
 export const deleteContactByIdController = async (req, res, next) => {
-  const { contactId } = req.params;
-  const removedContact = await deleteContactByIdService(contactId);
+  const { id } = req.params;
+  const removedContact = await deleteContactByIdService(id);
   if (removedContact === null) {
     return next(createHttpError(404, 'Contact not found'));
   }
