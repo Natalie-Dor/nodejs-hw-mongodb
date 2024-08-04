@@ -13,7 +13,7 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
-import { isValidId } from '../middlewares/isValidID.js';
+import { isValidId } from '../middlewares/isValidId.js';
 
 const router = express.Router();
 const jsonParser = express.json();
