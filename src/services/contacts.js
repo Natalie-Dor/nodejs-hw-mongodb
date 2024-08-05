@@ -11,31 +11,31 @@ export const getAllContactsService = async ({
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
   const contactQuery = Contact.find();
-  if (filter.isFavorite) {
+
+  if (filter.isFavourite) {
     contactQuery.where('isFavourite').equals(filter.isFavourite);
   }
   if (filter.contactType) {
     contactQuery.where('contactType').equals(filter.contactType);
   }
-  return Contact.find().merge(contactQuery).exec();
-
-  // const [contacts, count] = await Promise.all([
-  //   contactQuery
-  //     .sort({ [sortBy]: sortOrder })
-  //     .skip(skip)
-  //     .limit(limit)
-  //     .exec(),
-  //   Contact.countDocuments(contactQuery),
-  // ]);
 
   const [contacts, count] = await Promise.all([
-    Contact.find()
+    contactQuery
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(limit)
       .exec(),
-    Contact.countDocuments(),
+    Contact.countDocuments(contactQuery),
   ]);
+
+  // const [contacts, count] = await Promise.all([
+  //   Contact.find()
+  //     .sort({ [sortBy]: sortOrder })
+  //     .skip(skip)
+  //     .limit(limit)
+  //     .exec(),
+  //   Contact.countDocuments(),
+  // ]);
   // const contacts = await Contact.find().skip(skip).limit(limit).exec();
   // const count = await Contact.countDocuments();
   const totalPages = Math.ceil(count / perPage);
@@ -48,6 +48,7 @@ export const getAllContactsService = async ({
     hasNextPage: totalPages - page > 0,
     hasPreviousPage: page > 1,
   };
+  return Contact.find().merge(contactQuery).exec();
 };
 
 export const getContactByIdService = (contactId) => Contact.findById(contactId);
