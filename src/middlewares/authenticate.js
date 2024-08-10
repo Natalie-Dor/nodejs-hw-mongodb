@@ -32,10 +32,5 @@ export async function auth(req, res, next) {
 
   req.user = user;
 
-  //
-
-  // "email": "owner@gmail.com",
-  // "password":"0123"
-
   next();
 }
