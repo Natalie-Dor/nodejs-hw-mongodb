@@ -14,20 +14,28 @@ import {
   updateContactSchema,
 } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
+import { auth } from '../middlewares/authenticate.js';
 
 const router = express.Router();
 const jsonParser = express.json();
 
-router.get('/contacts', ctrlWrapper(getAllContactsController));
-router.get('/contacts/:id', isValidId, ctrlWrapper(getContactByIdController));
+router.get('/contacts', auth, ctrlWrapper(getAllContactsController));
+router.get(
+  '/contacts/:id',
+  auth,
+  isValidId,
+  ctrlWrapper(getContactByIdController),
+);
 router.post(
   '/contacts',
+  auth,
   jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 router.patch(
   '/contacts/:id',
+  auth,
   isValidId,
   jsonParser,
   validateBody(updateContactSchema),
@@ -35,13 +43,8 @@ router.patch(
 );
 router.delete(
   '/contacts/:id',
+  auth,
   isValidId,
   ctrlWrapper(deleteContactByIdController),
 );
 export default router;
-// upsert
-// name - обов’язково
-// phoneNumber - обов’язково
-// email - не обовʼязково
-// isFavourite - не обовʼязково
-// contactType - обовʼязково

@@ -6,11 +6,13 @@ export const getAllContactsService = async ({
   sortBy,
   sortOrder,
   filter,
+  userId,
 }) => {
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
   const contactQuery = Contact.find();
+  contactQuery.where('userId').equals(userId);
   const [countContacts, contacts] = await Promise.all([
     Contact.find().merge(contactQuery).countDocuments(),
     contactQuery
@@ -38,21 +40,28 @@ export const getAllContactsService = async ({
   };
 };
 
-export const getContactByIdService = (contactId) => Contact.findById(contactId);
+export const getContactByIdService = (contactId, userId) =>
+  Contact.findOne({ _id: contactId, userId });
+// Contact.findById(contactId);
 
-export const createContactService = (contactData) =>
-  Contact.create(contactData);
+export const createContactService = (contactData, userId) =>
+  Contact.create(contactData, userId);
 
 export const updateContactByIdService = async (
   contactId,
   contactData,
+  userId,
   options = {},
 ) => {
-  const rawResult = await Contact.findByIdAndUpdate(contactId, contactData, {
-    new: true,
-    includeResultMetadata: true,
-    ...options,
-  });
+  const rawResult = await Contact.findOneAndUpdate(
+    { _id: contactId, userId },
+    contactData,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
   if (!rawResult || !rawResult.value) return null;
 
   return {
@@ -61,5 +70,5 @@ export const updateContactByIdService = async (
   };
 };
 
-export const deleteContactByIdService = (contactId) =>
-  Contact.findByIdAndDelete(contactId);
+export const deleteContactByIdService = (contactId, userId) =>
+  Contact.findOneAndDelete({ _id: contactId, userId });
