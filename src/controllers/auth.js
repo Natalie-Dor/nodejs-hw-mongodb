@@ -8,7 +8,7 @@ async function register(req, res) {
   };
   const registeredUser = await AuthService.registerUser(user);
   res.send({
-    status: 200,
+    status: 201,
     message: 'Successfully registered a user!',
     data: registeredUser,
   });
@@ -68,4 +68,15 @@ async function refresh(req, res) {
   });
 }
 
+// async function requestResetEmail(req, res, next) {
+//   await AuthService.requestResetEmail(req.body.email);
+
+//   res.send({
+//     status: 200,
+//     message: 'Reset password was successfully sent!',
+//     data: {},
+//   });
+// }
+
 export { register, login, logout, refresh };
+//  requestResetEmail;
