@@ -7,7 +7,7 @@ async function register(req, res) {
     password: req.body.password,
   };
   const registeredUser = await AuthService.registerUser(user);
-  res.send({
+  res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
     data: registeredUser,
@@ -27,7 +27,7 @@ async function login(req, res) {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,
   });
-  res.send({
+  res.status(200).json({
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
@@ -59,7 +59,7 @@ async function refresh(req, res) {
     expires: session.refreshTokenValidUntil,
   });
 
-  res.send({
+  res.status(200).json({
     status: 200,
     message: 'Successfully refreshed a session!',
     data: {
