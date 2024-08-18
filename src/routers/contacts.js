@@ -8,11 +8,13 @@ import {
   getContactByIdController,
   updateContactByIdController,
 } from '../controllers/contacts.js';
-import { validateBody } from '../middlewares/validateBody.js';
+
 import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contacts.js';
+
+import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { auth } from '../middlewares/authenticate.js';
 

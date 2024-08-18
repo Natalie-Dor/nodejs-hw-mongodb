@@ -35,7 +35,7 @@ async function login(req, res) {
     },
   });
 }
-async function logout(req, res, next) {
+async function logout(req, res) {
   if (typeof req.cookies.sessionId === 'string') {
     await AuthService.logoutUser(req.cookies.sessionId);
   }
@@ -67,16 +67,26 @@ async function refresh(req, res) {
     },
   });
 }
+// ========================================================
+async function requestResetEmail(req, res) {
+  await AuthService.requestResetEmail(req.body.email);
 
-// async function requestResetEmail(req, res, next) {
-//   await AuthService.requestResetEmail(req.body.email);
+  res.send({
+    status: 200,
+    message: 'Reset password was successfully sent!',
+    data: {},
+  });
+}
 
-//   res.send({
-//     status: 200,
-//     message: 'Reset password was successfully sent!',
-//     data: {},
-//   });
-// }
+async function resetPassword(req, res) {
+  const { password, token } = req.body;
 
-export { register, login, logout, refresh };
-//  requestResetEmail;
+  await AuthService.resetPassword(password, token);
+  res.send({
+    status: 200,
+    message: 'Password reset successfully',
+    data: {},
+  });
+}
+
+export { register, login, logout, refresh, requestResetEmail, resetPassword };
