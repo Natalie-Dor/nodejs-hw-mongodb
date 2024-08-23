@@ -6,13 +6,13 @@ import {
   login,
   logout,
   refresh,
-  requestResetEmail,
+  sendResetEmail,
   resetPassword,
 } from '../controllers/auth.js';
 import {
   registerSchema,
   loginSchema,
-  requestResetEmailSchema,
+  sendResetEmailSchema,
   resetPasswordSchema,
 } from '../validation/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -38,10 +38,10 @@ router.post('/auth/logout', ctrlWrapper(logout));
 router.post('/auth/refresh', ctrlWrapper(refresh));
 // =========================================================
 router.post(
-  '/auth/request-reset-email',
+  '/auth/send-reset-email',
   jsonParser,
-  validateBody(requestResetEmailSchema),
-  ctrlWrapper(requestResetEmail),
+  validateBody(sendResetEmailSchema),
+  ctrlWrapper(sendResetEmail),
 );
 
 router.post(

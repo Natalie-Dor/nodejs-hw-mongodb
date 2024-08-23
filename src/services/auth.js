@@ -106,17 +106,24 @@ async function requestResetEmail(email) {
 
   const html = template({
     name: user.name,
-    link: `https://google.com/reset-password?token=${resetToken}`,
+    link: `http://localhost:3000/auth/reset-password?token=${resetToken}`,
   });
 
   console.log({ resetToken });
 
-  await sendMail({
-    from: SMTP.FROM_EMAIL,
-    to: email,
-    subject: 'Reset your password',
-    html,
-  });
+  try {
+    await sendMail({
+      from: SMTP.FROM_EMAIL,
+      to: email,
+      subject: 'Reset your password',
+      html,
+    });
+  } catch (error) {
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 }
 
 async function resetPassword(password, token) {
@@ -131,7 +138,7 @@ async function resetPassword(password, token) {
     });
 
     if (user === null) {
-      throw createHttpError(404, 'User not found');
+      throw createHttpError(404, 'User not found!');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -142,7 +149,7 @@ async function resetPassword(password, token) {
       error.name === 'TokenExpiredError' ||
       error.name === 'JsonWebTokenError'
     ) {
-      throw createHttpError(401, 'Token not valid');
+      throw createHttpError(401, 'Token is expired or invalid.');
     }
     throw error;
   }

@@ -68,14 +68,18 @@ async function refresh(req, res) {
   });
 }
 // ========================================================
-async function requestResetEmail(req, res) {
-  await AuthService.requestResetEmail(req.body.email);
+async function sendResetEmail(req, res, next) {
+  try {
+    await AuthService.requestResetEmail(req.body.email);
 
-  res.send({
-    status: 200,
-    message: 'Reset password was successfully sent!',
-    data: {},
-  });
+    res.status(200).json({
+      status: 200,
+      message: 'Reset password was successfully sent!',
+      data: {},
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function resetPassword(req, res) {
@@ -84,9 +88,9 @@ async function resetPassword(req, res) {
   await AuthService.resetPassword(password, token);
   res.send({
     status: 200,
-    message: 'Password reset successfully',
+    message: 'Password has been successfully reset.',
     data: {},
   });
 }
 
-export { register, login, logout, refresh, requestResetEmail, resetPassword };
+export { register, login, logout, refresh, sendResetEmail, resetPassword };
