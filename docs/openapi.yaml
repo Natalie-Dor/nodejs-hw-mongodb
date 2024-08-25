@@ -13,43 +13,25 @@ tags:
     description: Auth operations.
   # теги, що ви будете використовувати
 servers:
-  - url: http://localhost:3000
-  - url: #посилання на задеплоєний сайт
+  - url: http://127.0.0.1:8080
+  # - url: #посилання на задеплоєний сайт
 paths:
   /contacts/{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
+
   # тут будуть посилання на ендпоінти
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-#       Крок 3
-
-# Створіть папку swagger. У неї додайте папки components та paths. В папці components зберігайте частини сутностей, наприклад, опис відповідей або сутностей. В папці paths зберігайте файли документації відповідно до схеми побудови шляху. Наприклад, для роуту GET /contacts/:contactId відповідним файлом буде /swagger/paths/contacts/{id}/get.yaml.
-
-# Крок 4
-
-# Додайте документацію для роута GET /contacts/:contactId у відповідний файл. У ній має бути:
-
-# tags - тег, до якого цей ендпоінт належить (Contacts)
-# summary - короткий опис ендпоінта
-# operationId - унікальний ідентифікатор операції
-# description - більш розгорнутий опис
-# security - зазначте, що ми використовуємо авторизацію за допомогою Bearer токену
-# parameters - параметри запиту (для цього ендпоінту - параметр шляху :contactId)
-# responses - варіанти відповіді
-# 200
-# 404
-# Додайте посилання на цей ендпоінт до файлу ./docs/openapi.yaml.
-
-# Крок 5
-
-# Додайте за тим самим принципом документацію для ендпоінтів:
-
-# GET /contacts
-# PATCH /contacts/:contactId
-# DELETE /contacts/:contactId
-# POST /contacts
-# Не забудьте описати query параметри для GET /contacts та body для запитів, що його містять.
