@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is documentacion of contacts app
+tags:
+  - name: Contacts
+    description: Operations about contacts.
+  - name: Auth
+    description: Auth operations.
+  # теги, що ви будете використовувати
+servers:
+  - url: http://localhost:3000
+  - url: #посилання на задеплоєний сайт
+paths:
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+  # тут будуть посилання на ендпоінти
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+#       Крок 3
+
+# Створіть папку swagger. У неї додайте папки components та paths. В папці components зберігайте частини сутностей, наприклад, опис відповідей або сутностей. В папці paths зберігайте файли документації відповідно до схеми побудови шляху. Наприклад, для роуту GET /contacts/:contactId відповідним файлом буде /swagger/paths/contacts/{id}/get.yaml.
+
+# Крок 4
+
+# Додайте документацію для роута GET /contacts/:contactId у відповідний файл. У ній має бути:
+
+# tags - тег, до якого цей ендпоінт належить (Contacts)
+# summary - короткий опис ендпоінта
+# operationId - унікальний ідентифікатор операції
+# description - більш розгорнутий опис
+# security - зазначте, що ми використовуємо авторизацію за допомогою Bearer токену
+# parameters - параметри запиту (для цього ендпоінту - параметр шляху :contactId)
+# responses - варіанти відповіді
+# 200
+# 404
+# Додайте посилання на цей ендпоінт до файлу ./docs/openapi.yaml.
+
+# Крок 5
+
+# Додайте за тим самим принципом документацію для ендпоінтів:
+
+# GET /contacts
+# PATCH /contacts/:contactId
+# DELETE /contacts/:contactId
+# POST /contacts
+# Не забудьте описати query параметри для GET /contacts та body для запитів, що його містять.
