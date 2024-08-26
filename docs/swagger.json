@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:8080"
+      "url": "https://contacts-app-nodejs-hw-mongodb.onrender.com"
     },
     {
       "url": "http://localhost:3000"
