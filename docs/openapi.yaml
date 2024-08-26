@@ -14,7 +14,7 @@ tags:
   # теги, що ви будете використовувати
 servers:
   - url: http://127.0.0.1:8080
-  # - url: #посилання на задеплоєний сайт
+  - url: http://localhost:3000
 paths:
   /contacts/{id}:
     get:
